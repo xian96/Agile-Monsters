@@ -9,11 +9,12 @@
       "install-client": "cd frontend && npm install",
       "install-server": "cd backend && npm install",
       "heroku-postbuild": "npm run install-client && npm run install-server && npm run build",
-      "start" : "cd backend && npm start"
+      "start": "concurrently \"cd backend && npm start\" \"serve -s build -l 3000\" "
    },
    "author": "Agile Monsters",
    "license": "ISC",
    "dependencies": {
-      "concurrently": "^5.1.0"
+      "concurrently": "^5.1.0",
+      "serve": "^11.3.0"
    }
 }
