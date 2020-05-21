@@ -7,7 +7,7 @@ const { ObjectId } = require("mongodb");
 const userData = require('./users');
 //redis:
 const redis = require("redis");
-const client = redis.createClient();
+const client = redis.createClient(process.env.REDISCLOUD_URL, {no_ready_check: true});
 const bluebird = require("bluebird");
 bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);

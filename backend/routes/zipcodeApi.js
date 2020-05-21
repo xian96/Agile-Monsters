@@ -3,7 +3,7 @@ const router = express.Router();
 const axios = require('axios');
 //redis:
 const redis = require("redis");
-const client = redis.createClient();
+const client = redis.createClient(process.env.REDISCLOUD_URL, {no_ready_check: true});
 const bluebird = require("bluebird");
 bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
@@ -46,7 +46,7 @@ router.get('/:latitude/:longitude/:username', async (req, res) => {
             }
             //Do not have user's zipcode, then insert username-zipcode pair to redis
             else {
-                const { data } = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyCTJckDGDyHM8cZ9R-PKUIQGHgfhoXzzFA`);
+                const { data } = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${process.env.GOOGLE_API_KEY}`);
                 const { results } = data;
                 zipcode = results[0].address_components[6].short_name;
                 console.log("Zipcode come from the google Api!");
@@ -61,7 +61,7 @@ router.get('/:latitude/:longitude/:username', async (req, res) => {
         }
         //if there is no user login, then just fetch for the zipcode.
         else{
-            const { data } = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyCTJckDGDyHM8cZ9R-PKUIQGHgfhoXzzFA`);
+            const { data } = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${process.env.GOOGLE_API_KEY}`);
             const { results } = data;
             zipcode = results[0].address_components[6].short_name;
             console.log("No user right now! Zipcode come from the google Api!");
