@@ -4,7 +4,7 @@ import Footer from './utilities/Footer';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { doSignOut } from '../firebase/FirebaseFunctions';
-
+const domain = process.env.REACT_APP_DOMAIN || `https://agile-monsters.herokuapp.com`
 
 export default function SearchResults(props) {
    const [user, setUser] = useState(null);
@@ -16,7 +16,7 @@ export default function SearchResults(props) {
 
    async function getSearchResult() {
       try {
-         const { data } = await axios.get(`http://localhost:4000/users/search/${props.match.params.query}`,
+         const { data } = await axios.get(`${domain}:4000/users/search/${props.match.params.query}`,
             { withCredentials: true }
          );
          const { result, auth } = data;
@@ -28,7 +28,7 @@ export default function SearchResults(props) {
          setUser(userInfo);
          setGroups(groupsInfo);
       } catch (e) {
-         window.location.href = `http://localhost:3000/error/${e}`
+         window.location.href = `${domain}/error/${e}`
       }
    }
 

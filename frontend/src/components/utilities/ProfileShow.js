@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 // can't import images outside src folder
 import profile from '../../images/team-bg.jpeg';
 import { AuthContext } from '../../firebase/Auth';
+const domain = process.env.REACT_APP_DOMAIN || `https://agile-monsters.herokuapp.com`
 
 export default function ProfileForm(props) {
     const { currentUser } = useContext(AuthContext);
@@ -11,7 +12,7 @@ export default function ProfileForm(props) {
         // document.getElementById("upload-profile-btn").addEventListener("click", createGroup);
         async function get() {
             try {
-                const user = await fetch(`http://localhost:4000/users/getUserByUsername/${props.username}`, {
+                const user = await fetch(`${domain}:4000/users/getUserByUsername/${props.username}`, {
                     method: "GET",
                     credentials: 'include',
                     headers: {
@@ -27,7 +28,7 @@ export default function ProfileForm(props) {
                 setUserData(resolved);
                 return;
             } catch (e) {
-               window.location.href = `http://localhost:3000/error/${e}`
+               window.location.href = `${domain}/error/${e}`
             }
         }
         get();
@@ -36,7 +37,7 @@ export default function ProfileForm(props) {
     const createChatHref = (chatUserName) => {
         if (chatUserName && chatUserName !== currentUser.displayName) {
            let roomName = [currentUser.displayName, chatUserName];
-           return 'localhost:3000/chat/' + roomName.sort().join('');
+           return `${domain}/chat/` + roomName.sort().join('');
         }
      };
 

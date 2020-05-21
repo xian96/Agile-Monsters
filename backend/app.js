@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const app = express();
 const cookieParser = require('cookie-parser');
 const mongoSanitize = require('express-mongo-sanitize'); 
+const domain = process.env.DOMAIN || `https://agile-monsters.herokuapp.com`
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -25,7 +26,7 @@ app.use(mongoSanitize());
 
 app.use(cors({
    credentials: true,
-   origin: 'http://localhost:3000'
+   origin: `${domain}`
 }))
 
 app.use(cookieParser());
@@ -51,7 +52,7 @@ configRoute(app);
 
 const server = app.listen(process.env.PORT || 4000, process.env.IP, (req, res) => {
    console.log("express start!");
-   console.log(`http://localhost:${process.env.PORT}`);
+   console.log(`${domain}:${process.env.PORT}`);
 });
 
 const io = require('socket.io')(server);

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { storage } from '../firebase/Firebase';
 import Navigation from './utilities/Navigation';
 import Footer from './utilities/Footer';
+const domain = process.env.REACT_APP_DOMAIN || `https://agile-monsters.herokuapp.com`
 
 export default function GroupSetting(props) {
    const [groupProfile, setGroupProfile] = useState(null);
@@ -22,7 +23,7 @@ export default function GroupSetting(props) {
    useEffect(() => {
       async function getGroup() {
          try {
-            const { data } = await axios.get(`http://localhost:4000/groups/manager/${props.match.params.userId}`,
+            const { data } = await axios.get(`${domain}:4000/groups/manager/${props.match.params.userId}`,
                { withCredentials: true });
             const { group } = data;
             setGroup(group);
@@ -105,7 +106,7 @@ export default function GroupSetting(props) {
             if (Object.keys(reqBody).length === 0) {
                throw 'Please change some information!'
             }
-            const response = await fetch(`http://localhost:4000/groups/${group._id}`, {
+            const response = await fetch(`${domain}:4000/groups/${group._id}`, {
                method: "PUT",
                credentials: 'include',
                headers: {
@@ -119,10 +120,10 @@ export default function GroupSetting(props) {
                })}`;
             }
             alert(`success`);
-            window.location.href = `http://localhost:3000/group-profile/${group._id}`;
+            window.location.href = `${domain}/group-profile/${group._id}`;
          }
       } catch (e) {
-         window.location.href = `http://localhost:3000/error/${e}`
+         window.location.href = `${domain}/error/${e}`
       }
 
    }
@@ -145,12 +146,12 @@ export default function GroupSetting(props) {
             storage.ref('images').child(newName).getDownloadURL().then(async url => {
                setProfileUrl(url);
                try {
-                  await axios.put(`http://localhost:4000/groups/profile/${group._id}`,
+                  await axios.put(`${domain}:4000/groups/profile/${group._id}`,
                      { url: url }, {
                      withCredentials: true
                   });
                } catch (e) {
-                  window.location.href = `http://localhost:3000/error/${e}`
+                  window.location.href = `${domain}/error/${e}`
                }
             });
          }

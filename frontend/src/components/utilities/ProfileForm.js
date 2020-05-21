@@ -4,6 +4,7 @@ import { storage } from '../../firebase/Firebase';
 import { AuthContext } from '../../firebase/Auth';
 import { doSignOut } from '../../firebase/FirebaseFunctions';
 // can't import images outside src folder
+const domain = process.env.REACT_APP_DOMAIN || `https://agile-monsters.herokuapp.com`
 
 export default function ProfileForm() {
    const { currentUser } = useContext(AuthContext);
@@ -16,7 +17,7 @@ export default function ProfileForm() {
       // document.getElementById("upload-profile-btn").addEventListener("click", createGroup);
       async function getUrl() {
          try {
-            const { data } = await axios.get(`http://localhost:4000/users/profile/${currentUser.displayName}`, {
+            const { data } = await axios.get(`${domain}:4000/users/profile/${currentUser.displayName}`, {
                withCredentials: true
             })
             const { url, auth } = data;
@@ -32,7 +33,7 @@ export default function ProfileForm() {
       async function getUserData() {
          if (currentUser && currentUser.displayName) {
             try {
-               const { data } = await axios.get(`http://localhost:4000/users/getUserByName/${currentUser.displayName}`, {
+               const { data } = await axios.get(`${domain}:4000/users/getUserByName/${currentUser.displayName}`, {
                   withCredentials: true
                });
                const { user } = data;
@@ -77,7 +78,7 @@ export default function ProfileForm() {
             alert('Please change some information!')
             return false;
          }
-         const response = await fetch(`http://localhost:4000/users/${userData._id}`, {
+         const response = await fetch(`${domain}:4000/users/${userData._id}`, {
             credentials: "include",
             method: "PUT",
             headers: {
@@ -97,7 +98,7 @@ export default function ProfileForm() {
          else {
             // alert('Sorry, something went wrong!');
             const e = await response.json();
-            window.location.href = `http://localhost:3000/error/${e}`
+            window.location.href = `${domain}/error/${e}`
          }
          //window.location.reload();
       }
@@ -121,12 +122,12 @@ export default function ProfileForm() {
             storage.ref('images').child(newName).getDownloadURL().then(async url => {
                setProfileUrl(url);
                try {
-                  await axios.post(`http://localhost:4000/users/profile/${currentUser.displayName}`,
+                  await axios.post(`${domain}:4000/users/profile/${currentUser.displayName}`,
                      { url: url }, {
                      withCredentials: true
                   });
                } catch (e) {
-                  window.location.href = `http://localhost:3000/error/${e}`
+                  window.location.href = `${domain}/error/${e}`
                }
             });
          }

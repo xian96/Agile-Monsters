@@ -5,6 +5,7 @@ import { doSignInWithEmailAndPassword } from '../firebase/FirebaseFunctions';
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from '../firebase/Auth';
 import Footer from './utilities/Footer';
+const domain = process.env.REACT_APP_DOMAIN || `https://agile-monsters.herokuapp.com`
 
 export default function Login() {
    const { currentUser } = useContext(AuthContext);
@@ -51,7 +52,7 @@ export default function Login() {
                password.className = '';
             }
          }
-         await fetch('http://localhost:4000/users/login', {
+         await fetch(`${domain}:4000/users/login`, {
             credentials: "include",
             method: "POST",
             headers: {
@@ -59,7 +60,7 @@ export default function Login() {
             },
          })
          await doSignInWithEmailAndPassword(email.value, password.value);
-         window.location.href = "http://localhost:3000/explore";
+         window.location.href = `${domain}/explore`;
       } catch (e) {
          alert(e.message ? e.message : e);
       }
