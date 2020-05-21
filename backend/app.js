@@ -7,8 +7,15 @@ const app = express();
 const cookieParser = require('cookie-parser');
 const mongoSanitize = require('express-mongo-sanitize'); 
 
+const dotenv = require('dotenv');
+dotenv.config();
+
+// https://docs.redislabs.com/latest/rs/references/client_references/client_nodejs/#opening-a-connection-to-redis-using-node-redis
 let RedisStore = require('connect-redis')(session)
-let redisClient = redis.createClient()
+const redisClient = redis.createClient(process.env.REDISCLOUD_PORT, process.env.REDISCLOUD_HOSTNAME, {no_ready_check: true});
+redisClient.auth(process.env.REDISCLOUD_PASSWORD, function (err) {
+    if (err) throw err;
+});
  
 app.use(helmet({
    frameguard: false
@@ -44,7 +51,7 @@ configRoute(app);
 
 const server = app.listen(process.env.PORT || 4000, process.env.IP, (req, res) => {
    console.log("express start!");
-   console.log("http://localhost:4000");
+   console.log(`http://localhost:${process.env.PORT}`);
 });
 
 const io = require('socket.io')(server);
