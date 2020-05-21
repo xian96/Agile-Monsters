@@ -4,6 +4,7 @@ import logo from '../images/logo.png';
 import { AuthContext } from '../firebase/Auth';
 import Footer from './utilities/Footer';
 import { doCreateUserWithEmailAndPassword } from '../firebase/FirebaseFunctions';
+const domain = process.env.REACT_APP_DOMAIN || `https://agile-monsters.herokuapp.com`
 
 export default function Signup() {
    const iniCheckParameter = {
@@ -61,7 +62,7 @@ export default function Signup() {
          // if (!password_v) throw 'No password provided!';
          await doCreateUserWithEmailAndPassword(email_v, password_v, username_v);
 
-         const response = await fetch("http://localhost:4000/users", {
+         const response = await fetch(`${domain}:4000/users`, {
             credentials: "include",
             method: "POST",
             headers: {
@@ -79,15 +80,15 @@ export default function Signup() {
          });
 
          if (response.status === 200) {
-            window.location.href = "http://localhost:3000/login";
+            window.location.href = `${domain}/login`;
          }
          else {
             alert('Sorry, something went wrong! Redirect to langing page!');
             console.log(await response.json());
-            window.location.href = "http://localhost:3000/";
+            window.location.href = `${domain}/`;
          }
       } catch (e) {
-         window.location.href = `http://localhost:3000/error/${e}`
+         window.location.href = `${domain}/error/${e}`
       }
    }
 
@@ -118,7 +119,7 @@ export default function Signup() {
             });
          }
          else {
-            const response = await fetch(`http://localhost:4000/users/${newUsername}`, {
+            const response = await fetch(`${domain}:4000/users/${newUsername}`, {
                method: "GET",
                headers: {
                   'Content-Type': 'application/json'
@@ -148,7 +149,7 @@ export default function Signup() {
             }
             else {
                const err = await response.json();
-               window.location.href = `http://localhost:3000/error/${err}`
+               window.location.href = `${domain}/error/${err}`
             }
          }
       }
@@ -181,7 +182,7 @@ export default function Signup() {
             });
          }
          else {
-            const response = await fetch(`http://localhost:4000/users/getbyemail/${newEmail}`, {
+            const response = await fetch(`${domain}:4000/users/getbyemail/${newEmail}`, {
                method: "GET",
                headers: {
                   'Content-Type': 'application/json'

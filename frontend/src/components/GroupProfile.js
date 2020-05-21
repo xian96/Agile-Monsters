@@ -5,6 +5,7 @@ import profile from '../images/team-bg.jpeg';
 import Navigation from './utilities/Navigation';
 import Footer from './utilities/Footer';
 import { AuthContext } from '../firebase/Auth';
+const domain = process.env.REACT_APP_DOMAIN || `https://agile-monsters.herokuapp.com`
 
 export default function Groupprofile(props) {
    const { currentUser } = useContext(AuthContext);
@@ -37,7 +38,7 @@ export default function Groupprofile(props) {
    //get the group by groupId in the path.
    async function fetchGroupData() {
       try {
-         const group = await fetch(`http://localhost:4000/groups/${props.match.params.groupId}`, {
+         const group = await fetch(`${domain}:4000/groups/${props.match.params.groupId}`, {
             method: "GET",
             credentials: "include",
             headers: {
@@ -50,7 +51,7 @@ export default function Groupprofile(props) {
             throw `error in group info fetching`;
          return await group.json();
       } catch (e) {
-         window.location.href = `http://localhost:3000/error/${e}`;
+         window.location.href = `${domain}/error/${e}`;
       }
    }
 
@@ -58,7 +59,7 @@ export default function Groupprofile(props) {
    async function fetchUserData(userId) {
       try {
          // alert(`fetch for the user with id: ${userId}`);
-         const user = await fetch(`http://localhost:4000/users/getbyid/${userId}`, {
+         const user = await fetch(`${domain}:4000/users/getbyid/${userId}`, {
             method: "GET",
             credentials: 'include',
             headers: {
@@ -72,7 +73,7 @@ export default function Groupprofile(props) {
          // alert(resolved.email);
          return resolved;
       } catch (e) {
-         window.location.href = `http://localhost:3000/error/${e}`
+         window.location.href = `${domain}/error/${e}`
       }
    }
 
@@ -87,7 +88,7 @@ export default function Groupprofile(props) {
          }
          return userList;
       } catch (e) {
-         window.location.href = `http://localhost:3000/error/${e}`;
+         window.location.href = `${domain}/error/${e}`;
       }
    }
 
@@ -101,7 +102,7 @@ export default function Groupprofile(props) {
             setIsManager(true);
          }
       } catch (e) {
-         window.location.href = `http://localhost:3000/error/${e}`
+         window.location.href = `${domain}/error/${e}`
       }
    }
 
@@ -118,7 +119,7 @@ export default function Groupprofile(props) {
             }
          })
       } catch (e) {
-         window.location.href = `http://localhost:3000/error/${e}`
+         window.location.href = `${domain}/error/${e}`
       }
    }
 
@@ -128,7 +129,7 @@ export default function Groupprofile(props) {
       try {
          const { postContent } = e.target.elements;
          const time = new Date().toUTCString();
-         const Result = await fetch(`http://localhost:4000/groups/post/${groupData._id}`, {
+         const Result = await fetch(`${domain}:4000/groups/post/${groupData._id}`, {
             method: "POST",
             credentials: 'include',
             headers: {
@@ -152,14 +153,14 @@ export default function Groupprofile(props) {
          postContent.value = "";
          return;
       } catch (e) {
-         window.location.href = `http://localhost:3000/error/${e}`
+         window.location.href = `${domain}/error/${e}`
       }
    }
 
    //delete the post in group
    async function handleDeletePost(postId) {
       try {
-         const Result = await fetch(`http://localhost:4000/groups/post/${groupData._id}/${postId}`, {
+         const Result = await fetch(`${domain}:4000/groups/post/${groupData._id}/${postId}`, {
             method: "DELETE",
             credentials: 'include',
             headers: {
@@ -175,7 +176,7 @@ export default function Groupprofile(props) {
          document.getElementById(postId).style.display = "none";
          return;
       } catch (e) {
-         window.location.href = `http://localhost:3000/error/${e}`
+         window.location.href = `${domain}/error/${e}`
       }
    }
 
@@ -183,7 +184,7 @@ export default function Groupprofile(props) {
    async function handleJoinGroup(email) {
       // alert("handleJoinGroup with: " + email);
       try {
-         let user = await fetch(`http://localhost:4000/users/getuserbyemail/${email}`, {
+         let user = await fetch(`${domain}:4000/users/getuserbyemail/${email}`, {
             method: "GET",
             credentials: 'include',
             headers: {
@@ -197,7 +198,7 @@ export default function Groupprofile(props) {
          }
          user = await user.json();
 
-         const groupResult = await fetch(`http://localhost:4000/groups/${groupData._id}/${user._id}`, {
+         const groupResult = await fetch(`${domain}:4000/groups/${groupData._id}/${user._id}`, {
             method: "POST",
             credentials: 'include',
             headers: {
@@ -212,7 +213,7 @@ export default function Groupprofile(props) {
          }
 
          //already did in the groupResult fetch route's function!         //redundancy:
-         // const userResult = await fetch(`http://localhost:4000/users/${user._id}/${groupData._id}`, {
+         // const userResult = await fetch(`${domain}:4000/users/${user._id}/${groupData._id}`, {
          //    method: "POST",
          //    headers: {
          //       'Content-Type': 'application/json'
@@ -227,7 +228,7 @@ export default function Groupprofile(props) {
          setIsMember(true);
          return;
       } catch (e) {
-         // window.location.href = `http://localhost:3000/error/${e}`
+         // window.location.href = `${domain}/error/${e}`
          alert(e);
       }
    }
@@ -235,8 +236,8 @@ export default function Groupprofile(props) {
    //remove member from group
    async function handleMemberDelete(userId) {
       try {
-         // alert("handleMemberDelete groupData._id: " + `http://localhost:4000/groups/${groupData._id}/${userId}`);
-         const groupResult = await fetch(`http://localhost:4000/groups/${groupData._id}/${userId}`, {
+         // alert("handleMemberDelete groupData._id: " + `${domain}:4000/groups/${groupData._id}/${userId}`);
+         const groupResult = await fetch(`${domain}:4000/groups/${groupData._id}/${userId}`, {
             method: 'DELETE',
             credentials: 'include',
             headers: {
@@ -250,7 +251,7 @@ export default function Groupprofile(props) {
             })}`
          }
 
-         const userResult = await fetch(`http://localhost:4000/users/${userId}/${groupData._id}`, {
+         const userResult = await fetch(`${domain}:4000/users/${userId}/${groupData._id}`, {
             method: "DELETE",
             credentials: 'include',
             headers: {
@@ -267,7 +268,7 @@ export default function Groupprofile(props) {
          document.getElementById(userId).style.display = "none";
          return;
       } catch (e) {
-         window.location.href = `http://localhost:3000/error/${e}`
+         window.location.href = `${domain}/error/${e}`
       }
    }
 

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../firebase/Auth'
 import axios from 'axios';
 import $ from 'jquery';
+const domain = process.env.REACT_APP_DOMAIN || `https://agile-monsters.herokuapp.com`
 
 export default function Gallery(props) {
    const { currentUser } = useContext(AuthContext);
@@ -32,13 +33,13 @@ export default function Gallery(props) {
    async function getUrl() {
       if (currentUser && currentUser.displayName) {
          try {
-            const { data } = await axios.get(`http://localhost:4000/users/profile/${currentUser.displayName}`, {
+            const { data } = await axios.get(`${domain}/users/profile/${currentUser.displayName}`, {
                withCredentials: true
             })
             const { url } = data;
             setUserProfile(url);
          } catch (e) {
-            window.location.href = `http://localhost:3000/error/${e}`;
+            window.location.href = `${domain}/error/${e}`;
          }
       }
    };
@@ -46,13 +47,13 @@ export default function Gallery(props) {
    const getGroups = async () => {
       if (user && user.displayName) {
          try {
-            const { data } = await axios.get(`http://localhost:4000/users/groups/${user.displayName}`, {
+            const { data } = await axios.get(`${domain}/users/groups/${user.displayName}`, {
                withCredentials: true
             });
             const { groups } = data;
             setUserGroups(groups);
          } catch (e) {
-            window.location.href = `http://localhost:3000/error/${e}`;
+            window.location.href = `${domain}/error/${e}`;
          }
       }
    }
@@ -60,14 +61,14 @@ export default function Gallery(props) {
    const getUserGroup = async () => {
       if (user && user.displayName) {
          try {
-            const { data } = await axios.get(`http://localhost:4000/groups/group/${user.displayName}`, {
+            const { data } = await axios.get(`${domain}/groups/group/${user.displayName}`, {
                withCredentials: true
             });
             const { groupName, groupId } = data;
             setUserOwnGroup(groupName);
             setOwnGroupId(groupId);
          } catch (e) {
-            window.location.href = `http://localhost:3000/error/${e}`;
+            window.location.href = `${domain}/error/${e}`;
          }
       }
    }
@@ -75,25 +76,25 @@ export default function Gallery(props) {
    const getLocalGroups = async (take, skip) => {
       try {
          if (zipCode) {
-            const { data } = await axios.get(`http://localhost:4000/groups/local/${zipCode}?take=${take}&skip=${skip}`);
+            const { data } = await axios.get(`${domain}/groups/local/${zipCode}?take=${take}&skip=${skip}`);
             const { groups, numLeftOver } = data;
             setLocalGroups(groups);
             setNoLeftOver(numLeftOver);
          }
       } catch (e) {
-         window.location.href = `http://localhost:3000/error/${e}`;
+         window.location.href = `${domain}/error/${e}`;
       }
    }
 
    const getAllLocalGroups = async () => {
       try {
          if (zipCode) {
-            const { data } = await axios.get(`http://localhost:4000/groups/local-groups/${zipCode}`);
+            const { data } = await axios.get(`${domain}/groups/local-groups/${zipCode}`);
             const { groups } = data;
             setAllLocalGroups(groups);
          }
       } catch (e) {
-         window.location.href = `http://localhost:3000/error/${e}`;
+         window.location.href = `${domain}/error/${e}`;
       }
    }
 
@@ -105,14 +106,14 @@ export default function Gallery(props) {
                if (user) {
                   username = user.displayName;
                }
-               const { data } = await axios.get(`http://localhost:4000/zipcodeApi/${position.coords.latitude}/${position.coords.longitude}/${username}`);
+               const { data } = await axios.get(`${domain}/zipcodeApi/${position.coords.latitude}/${position.coords.longitude}/${username}`);
                setZipCode(data);
             }, error => {
-            window.location.href = `http://localhost:3000/error/Allow Please or Open it again!`;
+            window.location.href = `${domain}/error/Allow Please or Open it again!`;
             })
          } else {
             alert(3);
-            window.location.href = 'http://localhost:3000/error/PleaseAllow!'
+            window.location.href = `${domain}/error/PleaseAllow!`
          }
       } catch (e) {
          alert(e);
