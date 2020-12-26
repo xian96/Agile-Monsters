@@ -1,10 +1,11 @@
 const groupRoute = require("./groups");
 const userRoute = require('./users');
 const zipcodeApiRoute = require('./zipcodeApi');
+const domain = process.env.DOMAIN || `https://agile-monsters.herokuapp.com`
 
 module.exports = (app) => {
     app.use(function(req, res, next) {
-        res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+        res.header("Access-Control-Allow-Origin", `${domain}`);
         res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         next();

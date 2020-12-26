@@ -7,6 +7,7 @@ const app = express();
 const cookieParser = require('cookie-parser');
 const mongoSanitize = require('express-mongo-sanitize'); 
 const domain = process.env.DOMAIN || `https://agile-monsters.herokuapp.com`
+const path = require('path');
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -42,8 +43,13 @@ app.use(
     }
   })
 )
-
 app.use(express.json());
+
+app.use(express.static(path.join(__dirname, 'build')));
+app.get('/*', (req, res) => {
+   res.sendFile(path.join(__dirname, 'build', 'index.html'));
+ });
+//https://www.freecodecamp.org/news/deploy-a-react-node-app-to/
 const configMiddleware = require("./middleware");
 configMiddleware(app);
 
