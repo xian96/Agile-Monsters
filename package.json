@@ -4,12 +4,10 @@
    "description": "",
    "main": "index.js",
    "scripts": {
-      "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\" ",
-      "build": "cd frontend && npm run build",
-      "install-client": "cd frontend && npm install",
+      "dev": "cd backend && npm run dev",
       "install-server": "cd backend && npm install",
-      "heroku-postbuild": "npm run install-client && npm run install-server && npm run build",
-      "start": "concurrently \"cd backend && npm start\" \"serve -s build -l 8080\" "
+      "heroku-postbuild": "npm run install-server",
+      "start": "cd backend && npm start"
    },
    "author": "Agile Monsters",
    "license": "ISC",
