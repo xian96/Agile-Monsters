@@ -28,6 +28,14 @@ router.get('/logout', async(req, res) => {
       auth: 'unauth'
    });
 })
+//
+router.post('/login', async(req, res, next) => {
+   req.session.auth = 'user';
+   console.log('------------login-------------');
+   console.log(req.session);
+   res.status(200);
+   next();
+})
 //create
 router.post("/", async (req, res) => {
    // console.log('----------------------/---------post------------')
@@ -373,16 +381,6 @@ router.get('/search/:item', authUser, async (req, res) => {
       })
    }
 });
-
-router.post('/login', async(req, res, next) => {
-   req.session.auth = 'user';
-   console.log('------------login-------------');
-   console.log(req.session);
-   res.status(200);
-   next();
-})
-
-
 
 
 //-----------------------------------check--------------------------------------
