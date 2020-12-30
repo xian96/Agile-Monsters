@@ -27,7 +27,7 @@ app.use(helmet({
 app.use(mongoSanitize());
 
 app.use(cors({
-   // credentials: true,
+   credentials: true,
    // origin: `${domain}`
    origin: function (origin, callback) {
       if (origin == domain || !origin) {
