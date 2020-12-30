@@ -45,10 +45,10 @@ app.use(
 )
 app.use(express.json());
 
-app.use(express.static(path.join(__dirname, 'build')));
-app.get('/*', (req, res) => {
-   res.sendFile(path.join(__dirname, 'build', 'index.html'));
- });
+// app.use(express.static(path.join(__dirname, 'build')));
+// app.get('/*', (req, res) => {
+//    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+//  });
 //https://www.freecodecamp.org/news/deploy-a-react-node-app-to/
 const configMiddleware = require("./middleware");
 configMiddleware(app);
