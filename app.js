@@ -6,7 +6,8 @@ const helmet = require('helmet');
 const app = express();
 const cookieParser = require('cookie-parser');
 const mongoSanitize = require('express-mongo-sanitize'); 
-const domain = process.env.DOMAIN || `https://agile-monsters.herokuapp.com`
+const domain = process.env.REACT_APP_DOMAIN || `https://aglie-monsters-frontend.herokuapp.com/`
+const apiDomain = process.env.API_DOMAIN || `https://agile-monsters.herokuapp.com`;
 const path = require('path');
 
 const dotenv = require('dotenv');
