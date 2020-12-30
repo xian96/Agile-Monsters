@@ -10,8 +10,8 @@ const domain = process.env.REACT_APP_DOMAIN || `https://aglie-monsters-frontend.
 const apiDomain = process.env.API_DOMAIN || `https://agile-monsters.herokuapp.com`;
 const path = require('path');
 
-const dotenv = require('dotenv');
-dotenv.config();
+// const dotenv = require('dotenv');
+// dotenv.config();
 
 // https://docs.redislabs.com/latest/rs/references/client_references/client_nodejs/#opening-a-connection-to-redis-using-node-redis
 let RedisStore = require('connect-redis')(session)
@@ -27,8 +27,15 @@ app.use(helmet({
 app.use(mongoSanitize());
 
 app.use(cors({
-   credentials: true,
-   origin: `${domain}`
+   // credentials: true,
+   // origin: `${domain}`
+   origin: function (origin, callback) {
+      if (origin == domain || !origin) {
+        callback(null, true)
+      } else {
+        callback(new Error('Not allowed by CORS'))
+      }
+    }
 }))
 
 app.use(cookieParser());
