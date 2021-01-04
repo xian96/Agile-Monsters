@@ -32,7 +32,7 @@ router.get('/logout', async(req, res) => {
 router.post('/login', async(req, res, next) => {
    req.session.auth = 'user';
    console.log('------------login-------------');
-   console.log(" " + request.method + " " + request.originalUrl);
+   console.log(" " + req.method + " " + req.originalUrl);
    console.log(req.session);
    res.status(200);
    next();
