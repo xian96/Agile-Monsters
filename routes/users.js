@@ -29,7 +29,7 @@ router.get('/logout', async(req, res) => {
    });
 })
 //not found from frontend? working as the options. is that because the this is middleware?
-router.post('/login', async(req, res, next) => {
+router.post('/login', async(req, res) => {
    req.session.auth = 'user';
    console.log('------------login-------------');
    console.log(" " + req.method + " " + req.originalUrl);
