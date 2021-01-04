@@ -35,7 +35,7 @@ router.post('/login', async(req, res, next) => {
    console.log(" " + req.method + " " + req.originalUrl);
    console.log(req.session);
    res.status(200);
-   next();
+   // next();
 })
 //create
 router.post("/", async (req, res) => {
