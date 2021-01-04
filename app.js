@@ -66,7 +66,7 @@ configRoute(app);
 
 const server = app.listen(process.env.PORT || 4000, process.env.IP, (req, res) => {
    console.log("express start!");
-   console.log(`${domain}:${process.env.PORT}`);
+   console.log(`${apiDomain}:${process.env.PORT}`);
 });
 
 // const io = require('socket.io')(server);
