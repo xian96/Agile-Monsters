@@ -9,9 +9,8 @@ const mongoSanitize = require('express-mongo-sanitize');
 const domain = process.env.REACT_APP_DOMAIN || `https://aglie-monsters-frontend.herokuapp.com/`
 const apiDomain = process.env.API_DOMAIN || `https://agile-monsters.herokuapp.com`;
 const path = require('path');
-
-// const dotenv = require('dotenv');
-// dotenv.config();
+const dotenv = require('dotenv');
+dotenv.config();
 
 // https://docs.redislabs.com/latest/rs/references/client_references/client_nodejs/#opening-a-connection-to-redis-using-node-redis
 let RedisStore = require('connect-redis')(session)
