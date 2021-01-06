@@ -35,14 +35,21 @@ app.use(cors({
         callback(new Error('Not allowed by CORS'))
       }
     }
-}))
+}));
 
-app.use(cookieParser());
+app.use(function (req, res, next) {
+   res.header("Access-Control-Allow-Origin", `${domain}`);
+   res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+   next();
+});
+
+// app.use(cookieParser());no longer needed for the express-session
 
 app.use(
   session({
     store: new RedisStore({ client: redisClient }),
-    secret: 'keyboard cat',
+    secret: 'nintendo switch',
     resave: false,
     saveUninitialized: false,
     cookie: {
