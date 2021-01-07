@@ -46,8 +46,6 @@ app.use(function (req, res, next) {
 
 // app.use(cookieParser());no longer needed for the express-session
 
-// test remove it
-app.set('trust proxy', 1) 
 
 app.use(
   session({
