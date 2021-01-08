@@ -11,6 +11,13 @@ app.use((request, response, next) => {
     next();
 });
 
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Credentials', true);
+    res.header("Access-Control-Allow-Origin", process.env.REACT_APP_DOMAIN);
+    res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 
 // // Use the session middleware: create a session-cookie across all the router.
 // // session(options)

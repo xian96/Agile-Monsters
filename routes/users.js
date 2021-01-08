@@ -34,9 +34,7 @@ router.post('/login', async(req, res) => {
    console.log('------------login-------------');
    console.log(" " + req.method + " " + req.originalUrl);
    console.log(req.session);
-   res.status(200).json({
-      auth: 'user'
-   });
+   res.status(200).json(req.session);
    // next();
 })
 //create

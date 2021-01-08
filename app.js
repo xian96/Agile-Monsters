@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 const mongoSanitize = require('express-mongo-sanitize'); 
 const domain = process.env.REACT_APP_DOMAIN;
 const apiDomain = process.env.REACT_APP_API_DOMAIN;
-const path = require('path');
+//const path = require('path');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -37,15 +37,7 @@ app.use(cors({
     }
 }));
 
-app.use(function (req, res, next) {
-   res.header("Access-Control-Allow-Origin", process.env.REACT_APP_DOMAIN);
-   res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
-   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-   next();
-});
-
-// app.use(cookieParser());no longer needed for the express-session
-
+app.use(cookieParser('nintendo switch'));//no longer needed for the express-session
 
 app.use(
   session({
@@ -55,19 +47,14 @@ app.use(
     saveUninitialized: false,
     cookie: {
        maxAge: 60 * 1000 * 30,
-       // httpOnly: true,
-       // secure: true,
-       //sameSite: "none",
+      //  httpOnly: true,
+      //  secure: true,
+       sameSite: "none",
     }
   })
 )
 app.use(express.json());
 
-// app.use(express.static(path.join(__dirname, 'build')));
-// app.get('/*', (req, res) => {
-//    res.sendFile(path.join(__dirname, 'build', 'index.html'));
-//  });
-//https://www.freecodecamp.org/news/deploy-a-react-node-app-to/
 const configMiddleware = require("./middleware");
 configMiddleware(app);
 
