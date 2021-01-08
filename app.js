@@ -5,7 +5,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const app = express();
 const cookieParser = require('cookie-parser');
-const mongoSanitize = require('express-mongo-sanitize'); 
+const mongoSanitize = require('express-mongo-sanitize');
 const domain = process.env.REACT_APP_DOMAIN;
 const apiDomain = process.env.REACT_APP_API_DOMAIN;
 //const path = require('path');
@@ -14,11 +14,11 @@ dotenv.config();
 
 // https://docs.redislabs.com/latest/rs/references/client_references/client_nodejs/#opening-a-connection-to-redis-using-node-redis
 let RedisStore = require('connect-redis')(session)
-const redisClient = redis.createClient(process.env.REDISCLOUD_PORT, process.env.REDISCLOUD_HOSTNAME, {no_ready_check: true});
+const redisClient = redis.createClient(process.env.REDISCLOUD_PORT, process.env.REDISCLOUD_HOSTNAME, { no_ready_check: true });
 redisClient.auth(process.env.REDISCLOUD_PASSWORD, function (err) {
-    if (err) throw err;
+   if (err) throw err;
 });
- 
+
 app.use(helmet({
    frameguard: false
 }));
@@ -30,28 +30,28 @@ app.use(cors({
    // origin: `${domain}`
    origin: function (origin, callback) {
       if (origin == domain || !origin || origin == process.env.REACT_APP_DOMAIN) {
-        callback(null, true)
+         callback(null, true)
       } else {
-        callback(new Error('Not allowed by CORS'))
+         callback(new Error('Not allowed by CORS'))
       }
-    }
+   }
 }));
 
 app.use(cookieParser('nintendo switch'));//no longer needed for the express-session
 
 app.use(
-  session({
-    store: new RedisStore({ client: redisClient }),
-    secret: 'nintendo switch',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-       maxAge: 60 * 1000 * 30,
-      //  httpOnly: true,
-      //  secure: true,
-       sameSite: "none",
-    }
-  })
+   session({
+      store: new RedisStore({ client: redisClient }),
+      secret: 'nintendo switch',
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+         maxAge: 60 * 1000 * 30,
+         //httpOnly: true,
+         secure: true,
+         sameSite: 'none',
+      }
+   })
 )
 app.use(express.json());
 
