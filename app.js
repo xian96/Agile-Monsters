@@ -39,20 +39,40 @@ app.use(cors({
 
 app.use(cookieParser('nintendo switch'));//no longer needed for the express-session
 
-app.use(
-   session({
-      store: new RedisStore({ client: redisClient }),
-      secret: 'nintendo switch',
-      resave: false,
-      saveUninitialized: false,
-      cookie: {
-         maxAge: 60 * 1000 * 30,
-         //httpOnly: true,
-         secure: true,
-         sameSite: 'none',
-      }
-   })
-)
+if (process.env.REACT_APP_DOMAIN == 'http://localhost:3000') {
+   app.use(
+      session({
+         store: new RedisStore({ client: redisClient }),
+         secret: 'nintendo switch',
+         resave: false,
+         saveUninitialized: false,
+         cookie: {
+            maxAge: 60 * 1000 * 30,
+            httpOnly: true,
+            // secure: true,
+            // sameSite: 'none',
+         }
+      })
+   )
+}
+else {//PRODUCTION ENVIROMENT
+   app.set('trust proxy', 1);
+   app.use(
+      session({
+         store: new RedisStore({ client: redisClient }),
+         secret: 'nintendo switch',
+         resave: false,
+         saveUninitialized: false,
+         cookie: {
+            maxAge: 60 * 1000 * 30,
+            //httpOnly: true,
+            secure: true,
+            sameSite: 'none',
+         }
+      })
+   )
+}
+
 app.use(express.json());
 
 const configMiddleware = require("./middleware");
